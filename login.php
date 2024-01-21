@@ -36,6 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 <h2>Iniciar Sesión</h2>
@@ -51,7 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="password">Contraseña:</label>
     <input type="password" name="password" required><br>
 
-    <input type="submit" value="Iniciar Sesión">
+    <input type="submit" id="btn" value="Iniciar Sesión">
+    <a href="register.php">Registrarse</a>
 </form>
 </body>
 </html>

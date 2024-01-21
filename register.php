@@ -43,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Formulario PHP</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <?php
@@ -63,7 +64,8 @@ if (isset($_GET['error']) && $_GET['error'] === 'UsuarioExistente') {
     <label for="password">Contraseña:</label>
     <input type="password" name="password" required><br>
 
-    <input type="submit" value="Registrar">
+    <input type="submit" id="btn" value="Registrar">
+    <a href="login.php">Iniciar Sesión</a>
 </form>
 </body>
 </html>
