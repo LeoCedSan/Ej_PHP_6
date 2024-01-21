@@ -60,6 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["url_imagen_perfil"])) 
     <meta charset="UTF-8">
     <title>Página de Perfil</title>
     <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="perfil.css">
 </head>
 <body>
 
@@ -81,6 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["url_imagen_perfil"])) 
     </div>
 
     <!-- Contenido de la página -->
+    <div class="container">
     <h2>Mi Perfil</h2>
     
     <p>Nombre de Usuario: <?php echo htmlspecialchars($datosUsuario["username"]); ?></p>
@@ -95,6 +97,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["url_imagen_perfil"])) 
         <input type="text" name="url_imagen_perfil" value="<?php echo obtenerURLImagenPerfil($datosUsuario); ?>" required>
         <input type="submit" value="Actualizar">
     </form>
-
+    </div>
+    <!-- Mostrar preferencias -->
+    <div class="container">
+    <h3>Preferencias de Videojuegos:</h3>
+    <?php if (isset($datosUsuario["preferencias"])) : ?>
+        <ul>
+            <?php foreach ($datosUsuario["preferencias"] as $preferencia) : ?>
+                <li><?php echo htmlspecialchars($preferencia); ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else : ?>
+        <p>No has seleccionado preferencias de videojuegos.</p>
+    <?php endif; ?>
+    </div>
 </body>
 </html>
