@@ -55,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit_genres"])) {
     <meta charset="UTF-8">
     <title>Página de Inicio</title>
     <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="inicio.css">
 </head>
 <body>
 
@@ -62,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit_genres"])) {
     <div class="navbar">
         <a href="cerrar_sesion.php">Cerrar Sesión</a>
         <a href="perfil.php">
-         <?php echo htmlspecialchars($nombreUsuario); ?>
+            <?php echo htmlspecialchars($nombreUsuario); ?>
             <?php if (isset($datosUsuario)) : ?>
                 <img src="<?php echo obtenerURLImagenPerfil($datosUsuario); ?>" alt="Imagen de Perfil" width="30">
             <?php elseif (isset($_SESSION["perfil_imagen"])) : ?>
@@ -77,18 +78,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit_genres"])) {
     <h2>Bienvenido</h2>
     <p>Hola, <?php echo htmlspecialchars($nombreUsuario); ?>.</p>
 
-   <!-- Formulario de géneros de videojuegos -->
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-    <h2>Selecciona tus géneros de videojuegos favoritos:</h2>
-    <input type="checkbox" name="genres[]" value="Aventura" <?php echo (isset($datosUsuario["preferencias"]) && in_array("Aventura", $datosUsuario["preferencias"])) ? "checked" : ""; ?>> Aventura
-    <input type="checkbox" name="genres[]" value="Acción" <?php echo (isset($datosUsuario["preferencias"]) && in_array("Acción", $datosUsuario["preferencias"])) ? "checked" : ""; ?>> Acción
-    <input type="checkbox" name="genres[]" value="Estrategia" <?php echo (isset($datosUsuario["preferencias"]) && in_array("Estrategia", $datosUsuario["preferencias"])) ? "checked" : ""; ?>> Estrategia
-    <input type="checkbox" name="genres[]" value="Deportes" <?php echo (isset($datosUsuario["preferencias"]) && in_array("Deportes", $datosUsuario["preferencias"])) ? "checked" : ""; ?>> Deportes
-    <br>
-    <input type="submit" name="submit_genres" value="Guardar Géneros">
-</form>
+    <!-- Formulario de géneros de videojuegos -->
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <h2>Selecciona tus géneros de videojuegos favoritos:</h2>
+        <label class="checkbox-container">
+            <input type="checkbox" name="genres[]" value="Aventura" <?php echo (isset($datosUsuario["preferencias"]) && in_array("Aventura", $datosUsuario["preferencias"])) ? "checked" : ""; ?>> Aventura
+        </label>
+        <label class="checkbox-container">
+            <input type="checkbox" name="genres[]" value="Acción" <?php echo (isset($datosUsuario["preferencias"]) && in_array("Acción", $datosUsuario["preferencias"])) ? "checked" : ""; ?>> Acción
+        </label>
+        <label class="checkbox-container">
+            <input type="checkbox" name="genres[]" value="Estrategia" <?php echo (isset($datosUsuario["preferencias"]) && in_array("Estrategia", $datosUsuario["preferencias"])) ? "checked" : ""; ?>> Estrategia
+        </label>
+        <label class="checkbox-container">
+            <input type="checkbox" name="genres[]" value="Deportes" <?php echo (isset($datosUsuario["preferencias"]) && in_array("Deportes", $datosUsuario["preferencias"])) ? "checked" : ""; ?>> Deportes
+        </label>
+        <br>
+        <input type="submit" name="submit_genres" value="Guardar Géneros">
+    </form>
 
-    <!-- Resto del contenido de la página -->
 
 </body>
 </html>

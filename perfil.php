@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["url_imagen_perfil"])) 
         <a href="inicio.php">Inicio</a>
         <a href="cerrar_sesion.php">Cerrar Sesión</a>
         <a href="perfil.php">
-         <?php echo htmlspecialchars($nombreUsuario); ?>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">         <?php echo htmlspecialchars($nombreUsuario); ?>
             <?php if (isset($datosUsuario)) : ?>
                 <img src="<?php echo obtenerURLImagenPerfil($datosUsuario); ?>" alt="Imagen de Perfil" width="30">
             <?php elseif (isset($_SESSION["perfil_imagen"])) : ?>
