@@ -18,9 +18,9 @@ if (file_exists("usuarios.json")) {
 // Buscar el usuario actual en el array de usuarios
 $datosUsuario = null;
 
-foreach ($usuarios as $usuario) {
+foreach ($usuarios as $key => $usuario) {
     if ($usuario["username"] === $nombreUsuario) {
-        $datosUsuario = $usuario;
+        $datosUsuario = &$usuarios[$key]; // Referencia al usuario actual
         break;
     }
 }
@@ -34,6 +34,18 @@ if ($datosUsuario === null) {
 // Función para obtener la URL de la imagen de perfil del usuario
 function obtenerURLImagenPerfil($usuario) {
     return isset($usuario["perfil_imagen"]) ? $usuario["perfil_imagen"] : "default.jpg";
+}
+
+// Verificar si el formulario de géneros de videojuegos se ha enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit_genres"])) {
+    // Obtener los géneros seleccionados por el usuario
+    $genres = isset($_POST["genres"]) ? $_POST["genres"] : [];
+
+    // Guardar los géneros en el array del usuario
+    $datosUsuario["preferencias"] = $genres;
+
+    // Guardar el array actualizado en el archivo JSON
+    file_put_contents("usuarios.json", json_encode($usuarios));
 }
 ?>
 
@@ -58,13 +70,23 @@ function obtenerURLImagenPerfil($usuario) {
             <?php else : ?>
                 <img src="default.jpg" alt="Icono de Perfil" width="30">
             <?php endif; ?>
-          
         </a>
     </div>
 
     <!-- Contenido de la página -->
     <h2>Bienvenido</h2>
     <p>Hola, <?php echo htmlspecialchars($nombreUsuario); ?>.</p>
+
+   <!-- Formulario de géneros de videojuegos -->
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <h2>Selecciona tus géneros de videojuegos favoritos:</h2>
+    <input type="checkbox" name="genres[]" value="Aventura" <?php echo (isset($datosUsuario["preferencias"]) && in_array("Aventura", $datosUsuario["preferencias"])) ? "checked" : ""; ?>> Aventura
+    <input type="checkbox" name="genres[]" value="Acción" <?php echo (isset($datosUsuario["preferencias"]) && in_array("Acción", $datosUsuario["preferencias"])) ? "checked" : ""; ?>> Acción
+    <input type="checkbox" name="genres[]" value="Estrategia" <?php echo (isset($datosUsuario["preferencias"]) && in_array("Estrategia", $datosUsuario["preferencias"])) ? "checked" : ""; ?>> Estrategia
+    <input type="checkbox" name="genres[]" value="Deportes" <?php echo (isset($datosUsuario["preferencias"]) && in_array("Deportes", $datosUsuario["preferencias"])) ? "checked" : ""; ?>> Deportes
+    <br>
+    <input type="submit" name="submit_genres" value="Guardar Géneros">
+</form>
 
     <!-- Resto del contenido de la página -->
 
