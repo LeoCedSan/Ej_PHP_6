@@ -18,9 +18,9 @@ if (file_exists("usuarios.json")) {
 // Buscar el usuario actual en el array de usuarios
 $datosUsuario = null;
 
-foreach ($usuarios as $usuario) {
+foreach ($usuarios as $key => $usuario) {
     if ($usuario["username"] === $nombreUsuario) {
-        $datosUsuario = $usuario;
+        $datosUsuario = &$usuarios[$key]; // Referencia al usuario actual
         break;
     }
 }
@@ -35,19 +35,37 @@ if ($datosUsuario === null) {
 function obtenerURLImagenPerfil($usuario) {
     return isset($usuario["perfil_imagen"]) ? $usuario["perfil_imagen"] : "default.jpg";
 }
+
+// Procesar la actualización de la URL de la imagen de perfil si se envía el formulario
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["url_imagen_perfil"])) {
+    // Validar la URL de la imagen (puedes agregar más validaciones según tus necesidades)
+    $urlImagenPerfil = filter_var($_POST["url_imagen_perfil"], FILTER_VALIDATE_URL);
+
+    if ($urlImagenPerfil !== false) {
+        // Actualizar la URL de la imagen de perfil en el array del usuario
+        $datosUsuario["perfil_imagen"] = $urlImagenPerfil;
+
+        // Guardar el array actualizado en el archivo JSON
+        file_put_contents("usuarios.json", json_encode($usuarios));
+
+        // Guardar la URL en la sesión
+        $_SESSION["perfil_imagen"] = $urlImagenPerfil;
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Página de Inicio</title>
+    <title>Página de Perfil</title>
     <link rel="stylesheet" href="nav.css">
 </head>
 <body>
 
     <!-- Navbar -->
     <div class="navbar">
+        <a href="inicio.php">Inicio</a>
         <a href="cerrar_sesion.php">Cerrar Sesión</a>
         <a href="perfil.php">
          <?php echo htmlspecialchars($nombreUsuario); ?>
@@ -63,10 +81,20 @@ function obtenerURLImagenPerfil($usuario) {
     </div>
 
     <!-- Contenido de la página -->
-    <h2>Bienvenido</h2>
-    <p>Hola, <?php echo htmlspecialchars($nombreUsuario); ?>.</p>
-
-    <!-- Resto del contenido de la página -->
+    <h2>Mi Perfil</h2>
+    
+    <p>Nombre de Usuario: <?php echo htmlspecialchars($datosUsuario["username"]); ?></p>
+    <p>Correo Electrónico: <?php echo htmlspecialchars($datosUsuario["email"]); ?></p>
+    
+    <!-- Mostrar imagen de perfil -->
+    <img src="<?php echo obtenerURLImagenPerfil($datosUsuario); ?>" alt="Imagen de Perfil" width="100">
+    
+    <!-- Formulario para actualizar la URL de la imagen de perfil -->
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <label for="url_imagen_perfil">URL de la Imagen de Perfil:</label>
+        <input type="text" name="url_imagen_perfil" value="<?php echo obtenerURLImagenPerfil($datosUsuario); ?>" required>
+        <input type="submit" value="Actualizar">
+    </form>
 
 </body>
 </html>
