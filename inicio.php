@@ -63,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit_genres"])) {
     <div class="navbar">
         <a href="inicio.php">Inicio</a>
         <a href="contacto.php">Contacto</a>
+        <a href="blog.php">Blog</a>
         <a href="cerrar_sesion.php">Cerrar Sesión</a>
         <a href="perfil.php">
             <?php echo htmlspecialchars($nombreUsuario); ?>

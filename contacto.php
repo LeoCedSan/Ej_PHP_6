@@ -36,9 +36,7 @@ function obtenerURLImagenPerfil($usuario) {
     return isset($usuario["perfil_imagen"]) ? $usuario["perfil_imagen"] : "default.jpg";
 }
 
-// Obtener el nombre de usuario de la sesión si está disponible
-$nombreUsuario = isset($_SESSION["username"]) ? $_SESSION["username"] : null;
-
+// Procesar el formulario y guardar la información en un archivo JSON
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recoger datos del formulario
     $nombre = $_POST["nombre"];
@@ -48,20 +46,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recoger nombres de archivos adjuntos
     $archivosAdjuntos = isset($_FILES["adjunto"]) ? $_FILES["adjunto"]["name"] : [];
 
-    // Mostrar los datos recibidos
-    echo "<h2>Datos Recibidos:</h2>";
-    echo "<p>Nombre: $nombre</p>";
-    echo "<p>Correo Electrónico: $email</p>";
-    echo "<p>Mensaje: $mensaje</p>";
+    // Crear un identificador único incremental
+    $formId = uniqid();
 
-    if (!empty($archivosAdjuntos)) {
-        echo "<p>Archivos Adjuntos:</p>";
-        echo "<ul>";
-        foreach ($archivosAdjuntos as $nombreArchivo) {
-            echo "<li>$nombreArchivo</li>";
-        }
-        echo "</ul>";
-    }
+    // Guardar la información en el archivo JSON
+    $formContact = json_decode(file_get_contents("formContact.json"), true);
+
+    $formContact[$formId] = [
+        "id" => $formId,
+        "nombreUsuario" => $nombreUsuario,
+        "nombre" => $nombre,
+        "email" => $email,
+        "mensaje" => $mensaje,
+        "archivosAdjuntos" => $archivosAdjuntos
+    ];
+
+    file_put_contents("formContact.json", json_encode($formContact, JSON_PRETTY_PRINT));
+
+    // Mostrar mensaje de éxito
+    echo "<script>alert('Formulario enviado con éxito.'); window.location.href = 'contacto.php';</script>";
+    exit();
 }
 ?>
 
@@ -79,6 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="navbar">
         <a href="inicio.php">Inicio</a>
         <a href="contacto.php">Contacto</a>
+        <a href="blog.php">Blog</a>
         <a href="logout.php">Cerrar Sesión</a>
         <a href="perfil.php">
             <?php echo htmlspecialchars($nombreUsuario); ?>
