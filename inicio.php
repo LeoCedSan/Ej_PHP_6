@@ -61,6 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit_genres"])) {
 
     <!-- Navbar -->
     <div class="navbar">
+        <a href="inicio.php">Inicio</a>
+        <a href="contacto.php">Contacto</a>
         <a href="cerrar_sesion.php">Cerrar Sesión</a>
         <a href="perfil.php">
             <?php echo htmlspecialchars($nombreUsuario); ?>
@@ -69,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit_genres"])) {
             <?php elseif (isset($_SESSION["perfil_imagen"])) : ?>
                 <img src="<?php echo $_SESSION["perfil_imagen"]; ?>" alt="Imagen de Perfil" width="30">
             <?php else : ?>
-                <img src="default.jpg" alt="Icono de Perfil" width="30">
+                <img src="https://imgs.search.brave.com/9AjUPpEmc0mw49GMwPPudd_v6QJHuO2lJHLM3FRgTGU/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudmV4ZWxzLmNv/bS9tZWRpYS91c2Vy/cy8zLzEzNTI0Ny9p/c29sYXRlZC9wcmV2/aWV3L2U3MGE2Mjk2/YzJhNzlkYzdhNTZh/YjA1YjEwM2YzOGU4/LXNpZ25vLWRlLXVz/dWFyaW8tY29uLWZv/bmRvLnBuZw" alt="Icono de Perfil" width="30">
             <?php endif; ?>
         </a>
     </div>

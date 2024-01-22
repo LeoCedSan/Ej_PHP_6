@@ -33,7 +33,7 @@ if ($datosUsuario === null) {
 
 // Función para obtener la URL de la imagen de perfil del usuario
 function obtenerURLImagenPerfil($usuario) {
-    return isset($usuario["perfil_imagen"]) ? $usuario["perfil_imagen"] : "default.jpg";
+    return isset($usuario["perfil_imagen"]) ? $usuario["perfil_imagen"] : "https://imgs.search.brave.com/9AjUPpEmc0mw49GMwPPudd_v6QJHuO2lJHLM3FRgTGU/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudmV4ZWxzLmNv/bS9tZWRpYS91c2Vy/cy8zLzEzNTI0Ny9p/c29sYXRlZC9wcmV2/aWV3L2U3MGE2Mjk2/YzJhNzlkYzdhNTZh/YjA1YjEwM2YzOGU4/LXNpZ25vLWRlLXVz/dWFyaW8tY29uLWZv/bmRvLnBuZw";
 }
 
 // Procesar la actualización de la URL de la imagen de perfil si se envía el formulario
@@ -67,49 +67,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["url_imagen_perfil"])) 
     <!-- Navbar -->
     <div class="navbar">
         <a href="inicio.php">Inicio</a>
+        <a href="contacto.php">Contacto</a>
         <a href="cerrar_sesion.php">Cerrar Sesión</a>
         <a href="perfil.php">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">         <?php echo htmlspecialchars($nombreUsuario); ?>
+            <?php echo htmlspecialchars($nombreUsuario); ?>
             <?php if (isset($datosUsuario)) : ?>
                 <img src="<?php echo obtenerURLImagenPerfil($datosUsuario); ?>" alt="Imagen de Perfil" width="30">
             <?php elseif (isset($_SESSION["perfil_imagen"])) : ?>
                 <img src="<?php echo $_SESSION["perfil_imagen"]; ?>" alt="Imagen de Perfil" width="30">
             <?php else : ?>
-                <img src="default.jpg" alt="Icono de Perfil" width="30">
+                <img src="https://imgs.search.brave.com/9AjUPpEmc0mw49GMwPPudd_v6QJHuO2lJHLM3FRgTGU/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudmV4ZWxzLmNv/bS9tZWRpYS91c2Vy/cy8zLzEzNTI0Ny9p/c29sYXRlZC9wcmV2/aWV3L2U3MGE2Mjk2/YzJhNzlkYzdhNTZh/YjA1YjEwM2YzOGU4/LXNpZ25vLWRlLXVz/dWFyaW8tY29uLWZv/bmRvLnBuZw" alt="Icono de Perfil" width="30">
             <?php endif; ?>
-          
         </a>
     </div>
 
     <!-- Contenido de la página -->
     <div class="container">
-    <h2>Mi Perfil</h2>
-    
-    <p>Nombre de Usuario: <?php echo htmlspecialchars($datosUsuario["username"]); ?></p>
-    <p>Correo Electrónico: <?php echo htmlspecialchars($datosUsuario["email"]); ?></p>
-    
-    <!-- Mostrar imagen de perfil -->
-    <img src="<?php echo obtenerURLImagenPerfil($datosUsuario); ?>" alt="Imagen de Perfil" width="100">
-    
-    <!-- Formulario para actualizar la URL de la imagen de perfil -->
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <label for="url_imagen_perfil">URL de la Imagen de Perfil:</label>
-        <input type="text" name="url_imagen_perfil" value="<?php echo obtenerURLImagenPerfil($datosUsuario); ?>" required>
-        <input type="submit" value="Actualizar">
-    </form>
+        <h2>Mi Perfil</h2>
+        
+        <p>Nombre de Usuario: <?php echo htmlspecialchars($datosUsuario["username"]); ?></p>
+        <p>Correo Electrónico: <?php echo htmlspecialchars($datosUsuario["email"]); ?></p>
+        
+        <!-- Mostrar imagen de perfil -->
+        <img src="<?php echo obtenerURLImagenPerfil($datosUsuario); ?>" alt="Imagen de Perfil" width="100">
+        
+        <!-- Formulario para actualizar la URL de la imagen de perfil -->
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <label for="url_imagen_perfil">URL de la Imagen de Perfil:</label>
+            <input type="text" name="url_imagen_perfil" value="<?php echo obtenerURLImagenPerfil($datosUsuario); ?>" required>
+            <input type="submit" value="Actualizar">
+        </form>
     </div>
+    
     <!-- Mostrar preferencias -->
     <div class="container">
-    <h3>Preferencias de Videojuegos:</h3>
-    <?php if (isset($datosUsuario["preferencias"])) : ?>
-        <ul>
-            <?php foreach ($datosUsuario["preferencias"] as $preferencia) : ?>
-                <li><?php echo htmlspecialchars($preferencia); ?></li>
-            <?php endforeach; ?>
-        </ul>
-    <?php else : ?>
-        <p>No has seleccionado preferencias de videojuegos.</p>
-    <?php endif; ?>
+        <h3>Preferencias de Videojuegos:</h3>
+        <?php if (isset($datosUsuario["preferencias"])) : ?>
+            <ul>
+                <?php foreach ($datosUsuario["preferencias"] as $preferencia) : ?>
+                    <li><?php echo htmlspecialchars($preferencia); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else : ?>
+            <p>No has seleccionado preferencias de videojuegos.</p>
+        <?php endif; ?>
     </div>
 </body>
 </html>
